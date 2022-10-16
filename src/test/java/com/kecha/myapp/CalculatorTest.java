@@ -1,7 +1,6 @@
 package com.kecha.myapp;
 
 import org.junit.jupiter.api.Test;
-import javax.swing.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CalculatorTest {
@@ -13,7 +12,8 @@ public class CalculatorTest {
         calculator.changeNumber(239);
         calculator.add();
         calculator.changeNumber(1000);
-        assertEquals(1239.0, calculator.calculate());
+        calculator.equal();
+        assertEquals(1000+239, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
@@ -21,7 +21,8 @@ public class CalculatorTest {
         calculator.changeNumber(239);
         calculator.add();
         calculator.changeNumber(-1000);
-        assertEquals(239.0-1000, calculator.calculate());
+        calculator.equal();
+        assertEquals(239-1000, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
@@ -29,7 +30,8 @@ public class CalculatorTest {
         calculator.changeNumber(-239);
         calculator.add();
         calculator.changeNumber(-1000);
-        assertEquals(-239.0-1000, calculator.calculate());
+        calculator.equal();
+        assertEquals(-239-1000, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
@@ -37,7 +39,8 @@ public class CalculatorTest {
         calculator.changeNumber(1509);
         calculator.subtract();
         calculator.changeNumber(721);
-        assertEquals(1509.0-721, calculator.calculate());
+        calculator.equal();
+        assertEquals(1509-721, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
@@ -45,7 +48,8 @@ public class CalculatorTest {
         calculator.changeNumber(1509);
         calculator.subtract();
         calculator.changeNumber(-721);
-        assertEquals(1509.0+721, calculator.calculate());
+        calculator.equal();
+        assertEquals(1509+721, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
@@ -53,7 +57,8 @@ public class CalculatorTest {
         calculator.changeNumber(-1509);
         calculator.subtract();
         calculator.changeNumber(-721);
-        assertEquals(-1509.0+721.0, calculator.calculate());
+        calculator.equal();
+        assertEquals(-1509+721, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
@@ -61,7 +66,8 @@ public class CalculatorTest {
         calculator.changeNumber(61);
         calculator.multiply();
         calculator.changeNumber(99);
-        assertEquals(61.0*99, calculator.calculate());
+        calculator.equal();
+        assertEquals(61*99, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
@@ -69,7 +75,8 @@ public class CalculatorTest {
         calculator.changeNumber(61);
         calculator.multiply();
         calculator.changeNumber(-99);
-        assertEquals(-61*99.0, calculator.calculate());
+        calculator.equal();
+        assertEquals(-61*99, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
@@ -77,7 +84,8 @@ public class CalculatorTest {
         calculator.changeNumber(-61);
         calculator.multiply();
         calculator.changeNumber(-99);
-        assertEquals(61.0*99, calculator.calculate());
+        calculator.equal();
+        assertEquals(61*99, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
@@ -85,7 +93,8 @@ public class CalculatorTest {
         calculator.changeNumber(920);
         calculator.divide();
         calculator.changeNumber(32);
-        assertEquals(920.0/32, calculator.calculate());
+        calculator.equal();
+        assertEquals(920.0/32, Double.parseDouble(gui.getTextContent()));
     }
 
     @Test
@@ -93,7 +102,8 @@ public class CalculatorTest {
         calculator.changeNumber(920);
         calculator.divide();
         calculator.changeNumber(-32);
-        assertEquals(-920.0/32, calculator.calculate());
+        calculator.equal();
+        assertEquals(-920.0/32, Double.parseDouble(gui.getTextContent()));
     }
 
     @Test
@@ -101,7 +111,8 @@ public class CalculatorTest {
         calculator.changeNumber(-920);
         calculator.divide();
         calculator.changeNumber(-32);
-        assertEquals(920.0/32, calculator.calculate());
+        calculator.equal();
+        assertEquals(920.0/32, Double.parseDouble(gui.getTextContent()));
     }
 
     @Test
@@ -109,7 +120,7 @@ public class CalculatorTest {
         calculator.changeNumber(140);
         calculator.separateByPoint();
         calculator.changeNumber(5);
-        assertEquals(140.5, calculator.calculate());
+        assertEquals(140.5, Double.parseDouble(gui.getTextContent()));
     }
 
     @Test
@@ -117,37 +128,33 @@ public class CalculatorTest {
         calculator.changeNumber(12304);
         calculator.delete();
         calculator.delete();
-        assertEquals(123.0, calculator.calculate());
+        assertEquals(123, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
     public void checkCleanAll() {
         calculator.changeNumber(1290);
         calculator.add();
-        calculator.clean();
+        calculator.cleanAll();
         calculator.changeNumber(870);
         calculator.divide();
         calculator.changeNumber(12);
-        assertEquals(870.0/12, calculator.calculate());
+        calculator.equal();
+        assertEquals(870.0/12, Double.parseDouble(gui.getTextContent()));
     }
 
     @Test
-    public void checkChangeSign() {
+    public void checkChangeSignFromPositiveToNegative() {
         calculator.changeNumber(765);
         calculator.changeSign();
-        assertEquals(-765.0, calculator.calculate());
-
+        assertEquals(-765, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
-    public void checkInputNumberLimit() {
-        // Maximum - 17 numbers
-        assertTrue(1==1);
-    }
-
-    @Test
-    public void checkResponseNumberLimit() {
-        // Check for response limit
+    public void checkChangeSignFromNegativeToPositive() {
+        calculator.changeNumber(-125);
+        calculator.changeSign();
+        assertEquals(125, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
@@ -155,17 +162,8 @@ public class CalculatorTest {
         calculator.changeNumber(120);
         calculator.divide();
         calculator.changeNumber(0);
-        calculator.updateNumber(calculator.calculate());
-        assertEquals("Division by zero is impossible", gui.getTextContent());
-        /*
-        assertThrows(RuntimeException.class,
-                () -> {
-                    calculator.changeNumber(120);
-                    calculator.divide();
-                    calculator.changeNumber(0);
-                    calculator.calculate();
-                });
-        */
+        calculator.equal();
+        assertEquals("Error: Division by zero is impossible", gui.getTextContent());
     }
 
     @Test
@@ -173,11 +171,28 @@ public class CalculatorTest {
         calculator.changeNumber(0);
         calculator.divide();
         calculator.changeNumber(23);
-        assertEquals(0.0, calculator.calculate());
+        calculator.equal();
+        assertEquals(0, Integer.parseInt(gui.getTextContent()));
     }
 
     @Test
     public void checkOverridingOperation() {
-        assertTrue(1==1);
+        calculator.changeNumber(129);
+        calculator.divide();
+        calculator.add();
+        calculator.changeNumber(38);
+        calculator.equal();
+        assertEquals(129+38, Integer.parseInt(gui.getTextContent()));
+    }
+
+    @Test
+    public void checkMultiplyBigValues() {
+        calculator.changeNumber(888888888);
+        calculator.separateByPoint();
+        calculator.changeNumber(23);
+        calculator.multiply();
+        calculator.changeNumber(999999999);
+        calculator.equal();
+        assertEquals(888888888.23 * 999999999.0, Double.parseDouble(gui.getTextContent()));
     }
 }
