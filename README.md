@@ -7,7 +7,7 @@ Calculator functionality includes:
 - Basic mathematical operations `+, -, /, *, =`
 - Altering sign of entered number `+/-`
 - Adding decimal point to number `.`
-- Cleaning text field '<-, C, CE'
+- Cleaning text field `<-, C, CE`
 
 ### Program execution
 
