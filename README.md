@@ -26,4 +26,4 @@ This also generates JAR file with all the dependencies
 ```
   mvn exec:java
 ```
-- Otherwise, run the `main` method in `AutocompleteProgram.java` in your chosen IDE, e.g. `IntelliJ`
+- Otherwise, run the `main` method in `Calculator.java` in your chosen IDE, e.g. `IntelliJ`
